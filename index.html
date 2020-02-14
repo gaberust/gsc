@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+        .blank {
+            height: 10px !important;
+        }
+    </style>
+
+    <script>
+        function isInt(input) {
+            return input == parseInt(input);
+        }
+
+        function calculate() {
+            var valid = true;
+
+            if (!isInt(document.getElementById('regularTotal').value)) valid = false;
+            if (!isInt(document.getElementById('plusTotal').value)) valid = false;
+            if (!isInt(document.getElementById('premiumTotal').value)) valid = false;
+            if (!isInt(document.getElementById('dieselTotal').value)) valid = false;
+
+            if (!isInt(document.getElementById('regularPrev').value)) valid = false;
+            if (!isInt(document.getElementById('plusPrev').value)) valid = false;
+            if (!isInt(document.getElementById('premiumPrev').value)) valid = false;
+            if (!isInt(document.getElementById('dieselPrev').value)) valid = false;
+
+            if (!isInt(document.getElementById('regularPrice').value)) valid = false;
+            if (!isInt(document.getElementById('plusPrice').value)) valid = false;
+            if (!isInt(document.getElementById('premiumPrice').value)) valid = false;
+            if (!isInt(document.getElementById('dieselPrice').value)) valid = false;
+
+            if (!valid) {
+                alert("All fields must contain whole numbers.");
+            }
+            else {
+                document.getElementById('regularTotalOut').innerHTML = document.getElementById('regularTotal').value;
+                document.getElementById('plusTotalOut').innerHTML = document.getElementById('plusTotal').value;
+                document.getElementById('premiumTotalOut').innerHTML = document.getElementById('premiumTotal').value;
+                document.getElementById('dieselTotalOut').innerHTML = document.getElementById('dieselTotal').value;
+
+                document.getElementById('regularPrevOut').innerHTML = document.getElementById('regularPrev').value;
+                document.getElementById('plusPrevOut').innerHTML = document.getElementById('plusPrev').value;
+                document.getElementById('premiumPrevOut').innerHTML = document.getElementById('premiumPrev').value;
+                document.getElementById('dieselPrevOut').innerHTML = document.getElementById('dieselPrev').value;
+
+                var regularGallonsSold = document.getElementById('regularTotal').value - document.getElementById('regularPrev').value;
+                var plusGallonsSold = document.getElementById('plusTotal').value - document.getElementById('plusPrev').value;
+                var premiumGallonsSold = document.getElementById('premiumTotal').value - document.getElementById('premiumPrev').value;
+                var dieselGallonsSold = document.getElementById('dieselTotal').value - document.getElementById('dieselPrev').value;
+
+                for (var i = 0; i < 2; i++) {
+                    document.getElementsByClassName('regularGallonsSold')[i].innerHTML = regularGallonsSold;
+                    document.getElementsByClassName('plusGallonsSold')[i].innerHTML = plusGallonsSold;
+                    document.getElementsByClassName('premiumGallonsSold')[i].innerHTML = premiumGallonsSold;
+                    document.getElementsByClassName('dieselGallonsSold')[i].innerHTML = dieselGallonsSold;
+                }
+
+                document.getElementById('totalGallonsSold').innerHTML = regularGallonsSold + plusGallonsSold + premiumGallonsSold + dieselGallonsSold;
+
+                var regularPrice = document.getElementById('regularPrice').value / 1000;
+                var plusPrice = document.getElementById('plusPrice').value / 1000;
+                var premiumPrice = document.getElementById('premiumPrice').value / 1000;
+                var dieselPrice = document.getElementById('dieselPrice').value / 1000;
+
+                document.getElementById('regularPriceOut').innerHTML = regularPrice;
+                document.getElementById('plusPriceOut').innerHTML = plusPrice;
+                document.getElementById('premiumPriceOut').innerHTML = premiumPrice;
+                document.getElementById('dieselPriceOut').innerHTML = dieselPrice;
+
+                var regularSalesDollars = regularGallonsSold * regularPrice;
+                var plusSalesDollars = plusGallonsSold * plusPrice;
+                var premiumSalesDollars = premiumGallonsSold * premiumPrice;
+                var dieselSalesDollars = dieselGallonsSold * dieselPrice;
+
+                document.getElementById('regularSalesDollars').innerHTML = regularSalesDollars.toFixed(2);
+                document.getElementById('plusSalesDollars').innerHTML = plusSalesDollars.toFixed(2);
+                document.getElementById('premiumSalesDollars').innerHTML = premiumSalesDollars.toFixed(2);
+                document.getElementById('dieselSalesDollars').innerHTML = dieselSalesDollars.toFixed(2);
+
+                document.getElementById('totalSalesDollars').innerHTML = (regularSalesDollars + plusSalesDollars + premiumSalesDollars + dieselSalesDollars).toFixed(2);
+
+                document.getElementById('results').hidden = false;
+            }
+        }
+    </script>
+
+    <title>Gas Sheet Calculator</title>
+  </head>
+  <body>
+    <div class="jumbotron">
+        <h1>Gas Sheet Calculator</h1>
+    </div>
+
+    <div class="container">
+        <h3>Total:</h3>
+        <form class="form-inline">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Regular Total" id="regularTotal">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Plus Total" id="plusTotal">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Premium Total" id="premiumTotal">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Diesel Total" id="dieselTotal">
+        </form>
+
+        <h3>Less Previous Closing Totals:</h3>
+        <form class="form-inline">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Regular Previous Total" id="regularPrev">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Plus Previous Total" id="plusPrev">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Premium Previous Total" id="premiumPrev">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Diesel Previous Total" id="dieselPrev">
+        </form>
+
+        <h3>Prices:</h3>
+        <h4>Do not enter a decimal point. Example: Enter $2.249 as 2249</h4>
+        <form class="form-inline">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Regular Price" id="regularPrice">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Plus Total" id="plusPrice">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Premium Total" id="premiumPrice">
+            <input type="number" class="form-control mr-sm-2 mb-2" placeholder="Diesel Total" id="dieselPrice">
+        </form>
+
+        <a href="javascript:calculate();" class="btn btn-primary mb-2">Calculate</a>
+    </div>
+
+    <div id="results" class="container" hidden>
+        <h2>Gas Sheet:</h2>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td id="regularTotalOut"></td>
+                    <td id="plusTotalOut"></td>
+                    <td id="premiumTotalOut"></td>
+                    <td id="dieselTotalOut"></td>
+                </tr>
+                <tr>
+                    <td id="regularPrevOut"></td>
+                    <td id="plusPrevOut"></td>
+                    <td id="premiumPrevOut"></td>
+                    <td id="dieselPrevOut"></td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td class="regularGallonsSold"></td>
+                    <td class="plusGallonsSold"></td>
+                    <td class="premiumGallonsSold"></td>
+                    <td class="dieselGallonsSold"></td>
+                </tr>
+
+                <tr class="blank">
+                    <td colspan="4"></td>
+                </tr>
+                <tr class="blank">
+                    <td colspan="4"></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td class="regularGallonsSold"></td>
+                    <td id="regularPriceOut"></td>
+                    <td id="regularSalesDollars"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="plusGallonsSold"></td>
+                    <td id="plusPriceOut"></td>
+                    <td id="plusSalesDollars"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="premiumGallonsSold"></td>
+                    <td id="premiumPriceOut"></td>
+                    <td id="premiumSalesDollars"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="dieselGallonsSold"></td>
+                    <td id="dieselPriceOut"></td>
+                    <td id="dieselSalesDollars"></td>
+                </tr>
+
+                <tr class="blank">
+                    <td colspan="4"></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td id="totalGallonsSold"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr class="blank">
+                    <td colspan="4"></td>
+                </tr>
+                <tr class="blank">
+                    <td colspan="4"></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td id="totalSalesDollars"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
